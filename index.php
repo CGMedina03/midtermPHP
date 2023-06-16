@@ -1,6 +1,22 @@
 <?php
 include 'connect.php';
 
+$sql = "SELECT * FROM `crud`";
+$result = mysqli_query($con, $sql);
+
+if ($result && mysqli_num_rows($result) > 0) {
+  $row = mysqli_fetch_assoc($result);
+  $name = $row['name'];
+  $email = $row['email'];
+  $mobile = $row['mobile'];
+  $password = $row['password'];
+} else {
+  // Handle the case when no data is available
+  $name = "";
+  $email = "";
+  $mobile = "";
+  $password = "";
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,10 +45,10 @@ include 'connect.php';
       <div class="tab-pane fade show active p-3" id="userProfile" role="tabpanel">
         <div class="d-flex flex-column">
           <h3>Profile</h3>
-          <h3 class="fw-semibold text-muted">Christian Genesis</h3>
-          <h5>a@b.com</h5>
-          <h5>09872327823</h5>
-          <h5>abcd123</h5>
+          <h3 class="fw-semibold text-muted">Name: <?php echo $name; ?></h3>
+          <h5>Email: <?php echo $email; ?></h5>
+          <h5>Contact number: <?php echo $mobile; ?></h5>
+          <h5>Password: <?php echo $password; ?></h5>
         </div>
       </div>
     </div>
@@ -83,7 +99,9 @@ include 'connect.php';
         </p>
       </div>
     </div>
-    <script src="node_modules\bootstrap\dist\js\bootstrap.bundle.js"></script>
+  </div>
+
+  <script src="node_modules\bootstrap\dist\js\bootstrap.bundle.js"></script>
   </div>
 </body>
 
