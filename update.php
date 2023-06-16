@@ -24,20 +24,13 @@ if (isset($_POST['submit'])) {
     $result = mysqli_query($con, $sql);
 
     if ($result) {
-
-        header('location:display.php');
+        header('location:index.php#tabledata');
     } else {
 
         die(mysqli_error($con));
     }
 }
-
-
-
 ?>
-
-
-
 <!doctype html>
 
 <html lang="en">
@@ -48,7 +41,8 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules\bootstrap\dist\css\bootstrap.css">
+
 
     <title>CRUD Operation</title>
 </head>
