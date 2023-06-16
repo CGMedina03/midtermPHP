@@ -1,6 +1,10 @@
 <?php
- include 'connect.php';
-
+ $servername = "localhost";
+ $username="root";
+ $password="";
+ $database="crudoperation";
+ 
+ $con = mysqli_connect($servername,$username,$password,$database);
 
  if(isset($_GET['deleteid'])){
 
