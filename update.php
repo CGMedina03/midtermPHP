@@ -108,6 +108,7 @@ if (isset($_POST['submit'])) {
                 <button type="button" class="btn btn-secondary btn-sm"><a href="index.php" class="text-white text-decoration-none">Cancel</a></button>
                 <button type="submit" class="btn btn-success " name="submit">Update</button>
             </div>
+
         </form>
     </div>
 
