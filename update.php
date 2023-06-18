@@ -90,7 +90,7 @@ if (isset($_POST['submit'])) {
                 <?php if (isset($errors['password'])) echo '<p class="text-danger">' . $errors['password'] . '</p>'; ?>
             </div>
 
-            <button type="submit" class="btn btn-primary" name="submit">Update</button>
+            <button type="submit" class="btn btn-primary mt-3" name="submit">Update</button>
         </form>
     </div>
 

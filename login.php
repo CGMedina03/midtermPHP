@@ -1,37 +1,52 @@
 <?php
+session_start();
 include 'connect.php';
 
 // Initialize error variables
 $emailErr = $passwordErr = '';
 
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Check if the email and password fields are set
-  if (isset($_POST['email'], $_POST['password'])) {
-    // Retrieve the user input
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+if (isset($_POST['email']) && isset($_POST['password'])) {
 
-    // Perform the database query to check if the input matches the database record
-    $query = "SELECT * FROM crud WHERE email = '$email'";
-    $result = mysqli_query($con, $query);
+  // Function to validate user input
+  function validate($data)
+  {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
 
-    // Check if a matching record is found in the database
-    if (mysqli_num_rows($result) > 0) {
-      // Fetch the user record from the database
+  $email = validate($_POST['email']);
+  $password = validate($_POST['password']);
+
+  if (empty($email)) {
+  } else if (empty($password)) {
+  } else {
+    $sql = "SELECT * FROM crud WHERE email='$email' AND password='$password'";
+
+    $result = mysqli_query($con, $sql);
+
+    if (mysqli_num_rows($result) === 1) {
       $row = mysqli_fetch_assoc($result);
+      if ($row['email'] === $email && $row['password'] === $password) {
+        // Store user data in session variables
+        $_SESSION['email'] = $row['email'];
+        $_SESSION['name'] = $row['name'];
+        $_SESSION['id'] = $row['id'];
+        $_SESSION['mobile'] = $row['mobile'];
+        $_SESSION['password'] = $row['password'];
 
-      // Verify the entered password with the stored hashed password 
-      if ($password === $row['password'] && $email === $row['email']) {
-        // Password is correct, redirect to index.php or the desired destination
+        // Redirect to the index.php page
         header("Location: index.php");
-        exit;
+        exit();
       }
     }
   }
 }
+
 // Check if there are any errors and set the error message accordingly
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && (empty($emailErr) && empty($passwordErr))) {
+  // Set error message for invalid email or password
   $error = "Invalid email or password. Please try again.";
 } else {
   $error = ''; // Clear the error message
@@ -45,25 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (empty($emailErr) && empty($passwor
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css" />
-
+  <link rel="stylesheet" href="styles/style.css">
   <title>Log in</title>
-  <style>
-    .password-toggle {
-      position: relative;
-    }
-
-    .password-toggle input[type="password"] {
-      padding-right: 35px;
-    }
-
-    .password-toggle .toggle-icon {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      cursor: pointer;
-    }
-  </style>
 </head>
 
 <body>
@@ -74,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (empty($emailErr) && empty($passwor
         <div class="alert alert-danger"><?php echo $error; ?></div>
       <?php endif; ?>
 
-      <form action="" method="POST"> <!-- Update the form action to the current page -->
+      <form action="login.php" method="POST"> <!-- Update the form action to the current page -->
         <div class="form-floating mb-3">
           <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required>
           <label for="floatingInput">Email address</label>

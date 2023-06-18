@@ -1,10 +1,20 @@
 <?php
+session_start();
 include 'connect.php';
 
+// Check if the user is logged in and is an admin
+if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@gmail.com') {
+  $isAdmin = true;
+} else {
+  $isAdmin = false;
+}
+
+// Retrieve data from the database
 $sql = "SELECT * FROM `crud`";
 $result = mysqli_query($con, $sql);
 
-if ($result && mysqli_num_rows($result) > 0) {
+if ($result && mysqli_num_rows($result) > 1) {
+  // Fetch the first row of data
   $row = mysqli_fetch_assoc($result);
   $name = $row['name'];
   $email = $row['email'];
@@ -21,6 +31,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +45,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 <body>
   <div class="container-lg">
     <h1 class="mt-3 text-success display-6 text-center fw-semibold">
-      Greetings, <?php echo $name; ?> #<?php echo $id; ?>!
+      Greetings, <?php echo $_SESSION['name']; ?> #<?php echo $_SESSION['id']; ?>!
     </h1>
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -46,11 +57,13 @@ if ($result && mysqli_num_rows($result) > 0) {
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active p-3" id="userProfile" role="tabpanel">
         <div class="d-flex flex-column">
-          <?php if (!empty($name)) : ?>
-            <h3 class="fw-semibold text-muted">Name: <?php echo $name; ?></h3>
-            <h5>Email: <?php echo $email; ?></h5>
-            <h5>Contact number: <?php echo $mobile; ?></h5>
-            <h5>Password: <?php echo $password; ?></h5>
+          <?php if (!empty($_SESSION['name'])) : ?>
+            <h3 class="fw-semibold text-muted">Name: <?php echo $_SESSION['name']; ?></h3>
+            <h5>Email: <?php echo $_SESSION['email']; ?></h5>
+            <h5>Contact number: <?php echo $_SESSION['mobile']; ?></h5>
+            <?php if ($isAdmin) : ?>
+              <h5>Password: <?php echo $_SESSION['password']; ?></h5>
+            <?php endif; ?>
           <?php else : ?>
             <p>No user profile found.</p>
           <?php endif; ?>
@@ -59,7 +72,9 @@ if ($result && mysqli_num_rows($result) > 0) {
       </div>
       <div class="tab-pane fade p-3" id="tableData" role="tabpanel">
         <div class="container">
-          <button class="btn btn-primary my-5"> <a href="sample.php" class="text-light">Add user</a></button>
+          <?php if ($isAdmin) : ?>
+            <button class="btn btn-primary my-5"> <a href="sample.php" class="text-light">Add user</a></button>
+          <?php endif; ?>
           <table class="table">
             <thead>
               <tr>
@@ -67,8 +82,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Mobile</th>
-                <th scope="col">Password</th>
-                <th scope="col">Operation</th>
+                <?php if ($isAdmin) : ?>
+                  <th scope="col">Password</th>
+                  <th scope="col">Operation</th>
+                <?php endif; ?>
               </tr>
             </thead>
             <tbody>
@@ -77,23 +94,29 @@ if ($result && mysqli_num_rows($result) > 0) {
               $result = mysqli_query($con, $sql);
               if ($result) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                  $id = $row['id'];
-                  $name = $row['name'];
-                  $email = $row['email'];
-                  $mobile = $row['mobile'];
-                  $password = $row['password'];
+                  $row_id = $row['id'];
+                  $row_name = $row['name'];
+                  $row_email = $row['email'];
+                  $row_mobile = $row['mobile'];
+                  $row_password = $row['password'];
 
-                  echo '   <tr>
-                <th scope="row">' . $id . '</th>
-                <td>' . $name . '</td>
-                <td>' . $email . '</td>
-                <td>' . $mobile . '</td>
-                <td>' . $password . '</td>
-                  <td>
-                <button class="btn btn-primary"><a href="update.php?updateid=' . $id . '" class="text-light">Update</a></button>
-                <button class="btn btn-danger"><a href="delete.php?deleteid=' . $id . '" class="text-light">Delete</a></button>
-                  </td>
-                ';
+                  // Skip the row if it corresponds to the logged-in user or if it is an admin
+                  if ((!$isAdmin && $row_email === $_SESSION['email']) || $row_email === 'admin@gmail.com') {
+                    continue;
+                  }
+
+                  // Rest of the code to display the table row
+                  echo '<tr>
+                      <th scope="row">' . $row_id . '</th>
+                      <td>' . $row_name . '</td>
+                      <td>' . $row_email . '</td>
+                      <td>' . $row_mobile . '</td>';
+                  if ($isAdmin) {
+                    echo '<td>' . $row_password . '</td>
+                          <td><button class="btn btn-primary"><a href="update.php?updateid=' . $row_id . '" class="text-light">Update</a></button>
+                              <button class="btn btn-danger"><a href="delete.php?deleteid=' . $row_id . '" class="text-light">Delete</a></button></td>';
+                  }
+                  echo '</tr>';
                 }
               }
               ?>
