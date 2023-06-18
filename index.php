@@ -10,12 +10,14 @@ if ($result && mysqli_num_rows($result) > 0) {
   $email = $row['email'];
   $mobile = $row['mobile'];
   $password = $row['password'];
+  $id = $row['id'];
 } else {
   // Handle the case when no data is available
   $name = "";
   $email = "";
   $mobile = "";
   $password = "";
+  $id = "";
 }
 ?>
 
@@ -32,7 +34,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 <body>
   <div class="container-lg">
     <h1 class="mt-3 text-success display-6 text-center fw-semibold">
-      Greetings, Christian Genesis #1!
+      Greetings, <?php echo $name; ?> #<?php echo $id; ?>
     </h1>
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -55,8 +57,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     <div class="tab-pane fade p-3" id="tableData" role="tabpanel">
       <h3>Table data</h3>
       <div class="container">
-        <button class="btn btn-primary my-5"> <a href="sample.php" class="text-light">Add user </a>
-        </button>
+        <button class="btn btn-primary my-5"> <a href="sample.php" class="text-light">Add user</a></button>
         <table class="table">
           <thead>
             <tr>
@@ -70,7 +71,7 @@ if ($result && mysqli_num_rows($result) > 0) {
           </thead>
           <tbody>
             <?php
-            $sql = "Select * from `crud`";
+            $sql = "SELECT * FROM `crud`";
             $result = mysqli_query($con, $sql);
             if ($result) {
               while ($row = mysqli_fetch_assoc($result)) {
@@ -87,8 +88,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <td>' . $mobile . '</td>
                 <td>' . $password . '</td>
                 <td>
-                <button class="btn btn-primary"><a href="update.php? updateid=' . $id . '" class="text-light" >Update </a></button>
-                <button class="btn btn-danger"><a href="delete.php? deleteid=' . $id . '" class="text-light">Delete </a></button>
+                <button class="btn btn-primary"><a href="update.php?updateid=' . $id . '" class="text-light">Update</a></button>
+                <button class="btn btn-danger"><a href="delete.php?deleteid=' . $id . '" class="text-light">Delete</a></button>
                 </td>
                 </tr>';
               }
