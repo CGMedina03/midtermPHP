@@ -73,7 +73,7 @@ if ($result && mysqli_num_rows($result) > 1) {
       <div class="tab-pane fade p-3" id="tableData" role="tabpanel">
         <div class="container">
           <?php if ($isAdmin) : ?>
-            <button class="btn btn-primary my-5"> <a href="sample.php" class="text-light">Add user</a></button>
+            <button class="btn btn-success my-2"> <a href="sample.php" class="text-light text-decoration-none">Add user</a></button>
           <?php endif; ?>
           <table class="table">
             <thead>
@@ -113,8 +113,8 @@ if ($result && mysqli_num_rows($result) > 1) {
                       <td>' . $row_mobile . '</td>';
                   if ($isAdmin) {
                     echo '<td>' . $row_password . '</td>
-                          <td><button class="btn btn-primary"><a href="update.php?updateid=' . $row_id . '" class="text-light">Update</a></button>
-                              <button class="btn btn-danger"><a href="delete.php?deleteid=' . $row_id . '" class="text-light">Delete</a></button></td>';
+                          <td><button class="btn btn-success"><a href="update.php?updateid=' . $row_id . '" class="text-light  text-decoration-none">Update</a></button>
+                              <button class="btn btn-secondary"><a href="delete.php?deleteid=' . $row_id . '" class="text-light  text-decoration-none">Delete</a></button></td>';
                   }
                   echo '</tr>';
                 }
