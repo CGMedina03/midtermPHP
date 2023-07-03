@@ -1,14 +1,12 @@
 <?php
 session_start();
 include 'connect.php';
-
 // Check if the user is logged in and is an admin
 if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@gmail.com') {
   $isAdmin = true;
 } else {
   $isAdmin = false;
 }
-
 // Retrieve data from the database
 $sql = "SELECT * FROM `crud`";
 $result = mysqli_query($con, $sql);
@@ -30,8 +28,6 @@ if ($result && mysqli_num_rows($result) > 1) {
   $id = "";
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,7 +49,6 @@ if ($result && mysqli_num_rows($result) > 1) {
         <a class="nav-link" id="nav-tabledata-tab" data-bs-toggle="tab" href="#tableData" role="tab" aria-controls="tableData" aria-selected="false">Table Data</a>
       </div>
     </nav>
-
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active p-3" id="userProfile" role="tabpanel">
         <div class="d-flex flex-column">
@@ -102,12 +97,10 @@ if ($result && mysqli_num_rows($result) > 1) {
                   $row_email = $row['email'];
                   $row_mobile = $row['mobile'];
                   $row_password = $row['password'];
-
                   // Skip the row if it corresponds to the logged-in user or if it is an admin
                   if ((!$isAdmin && $row_email === $_SESSION['email']) || $row_email === 'admin@gmail.com') {
                     continue;
                   }
-
                   // Rest of the code to display the table row
                   echo '<tr>
                       <th scope="row">' . $row_id . '</th>
@@ -128,7 +121,6 @@ if ($result && mysqli_num_rows($result) > 1) {
         </div>
       </div>
     </div>
-
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
   </div>
 </body>

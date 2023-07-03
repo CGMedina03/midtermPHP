@@ -9,38 +9,29 @@ $name = $row['name'];
 $email = $row['email'];
 $mobile = $row['mobile'];
 $password1 = $row['password'];
-
 $errors = array(); // Array to store validation errors
-
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
-
     // Validate Name: Should not contain special symbols or numbers
     if (!preg_match('/^[a-zA-Z\s]+$/', $name)) {
         $errors['name'] = "Name should only contain letters and spaces.";
     }
-
     // Validate Mobile Number: Should be 11 digits starting from 09
     if (!preg_match('/^09\d{9}$/', $mobile)) {
         $errors['mobile'] = "Mobile number should be 11 digits starting from 09.";
     }
-
     // Validate Password: Should have at least 12 characters
     if (strlen($password) < 12) {
         $errors['password'] = "Password should have at least 12 characters.";
     }
-
     // Check if there are any validation errors
     if (count($errors) === 0) {
         // All inputs are valid, proceed with the update operation
-
         $sql = "UPDATE `crud` SET name='$name', email='$email', mobile='$mobile', password='$password' WHERE id=$id";
-
         $result = mysqli_query($con, $sql);
-
         if ($result) {
             // Check if the updated user is the admin
             if ($id == $_SESSION['id']) {
@@ -50,10 +41,8 @@ if (isset($_POST['submit'])) {
                 $_SESSION['mobile'] = $mobile;
                 $_SESSION['password'] = $password;
             }
-
             // Redirect back to the profile page
             header('location: index.php');
-
             exit; // Stop further processing
         } else {
             die(mysqli_error($con));
@@ -61,7 +50,6 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,10 +57,8 @@ if (isset($_POST['submit'])) {
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
-
     <title>CRUD Operation</title>
     <style>
         .password-toggle-icon {
@@ -97,13 +83,11 @@ if (isset($_POST['submit'])) {
                 <label class="form-label">Email</label>
                 <input type="email" class="form-control" placeholder="Enter your email" name="email" autocomplete="off" value="<?php echo $email; ?>">
             </div>
-
             <div class="form-group mb-3">
                 <label class="form-label">Mobile Number</label>
                 <input type="text" class="form-control" placeholder="Enter your Mobile Number" name="mobile" autocomplete="off" value="<?php echo $mobile; ?>">
                 <?php if (isset($errors['mobile'])) echo '<p class="text-danger">' . $errors['mobile'] . '</p>'; ?>
             </div>
-
             <div class="form-group mb-3">
                 <label class="form-label">Password</label>
                 <div class="position-relative">
@@ -119,15 +103,12 @@ if (isset($_POST['submit'])) {
                 <button type="button" class="btn btn-secondary btn-sm me-3"><a href="index.php" class="text-white text-decoration-none">Cancel</a></button>
                 <button type="submit" class="btn btn-success " name="submit">Update</button>
             </div>
-
         </form>
     </div>
-
     <script>
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById("password");
             const toggleIcon = document.querySelector(".password-toggle-icon");
-
             if (passwordInput.type === "password") {
                 passwordInput.type = 'text';
                 toggleIcon.classList.remove('bi-eye');
@@ -139,7 +120,6 @@ if (isset($_POST['submit'])) {
             }
         }
     </script>
-
     <script src="node_modules\bootstrap\dist\js\bootstrap.bundle.js"></script>
 </body>
 

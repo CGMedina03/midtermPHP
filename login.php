@@ -1,12 +1,9 @@
 <?php
 session_start();
 include 'connect.php';
-
 // Initialize error variables
 $emailErr = $passwordErr = '';
-
 if (isset($_POST['email']) && isset($_POST['password'])) {
-
   // Function to validate user input
   function validate($data)
   {
@@ -15,17 +12,13 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $data = htmlspecialchars($data);
     return $data;
   }
-
   $email = validate($_POST['email']);
   $password = validate($_POST['password']);
-
   if (empty($email)) {
   } else if (empty($password)) {
   } else {
     $sql = "SELECT * FROM crud WHERE email='$email' AND password='$password'";
-
     $result = mysqli_query($con, $sql);
-
     if (mysqli_num_rows($result) === 1) {
       $row = mysqli_fetch_assoc($result);
       if ($row['email'] === $email && $row['password'] === $password) {
@@ -35,7 +28,6 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['id'] = $row['id'];
         $_SESSION['mobile'] = $row['mobile'];
         $_SESSION['password'] = $row['password'];
-
         // Redirect to the index.php page
         header("Location: index.php");
         exit();
@@ -43,7 +35,6 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     }
   }
 }
-
 // Check if there are any errors and set the error message accordingly
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && (empty($emailErr) && empty($passwordErr))) {
   // Set error message for invalid email or password
@@ -71,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (empty($emailErr) && empty($passwor
       <?php if (!empty($error)) : ?>
         <div class="alert alert-danger"><?php echo $error; ?></div>
       <?php endif; ?>
-
       <form action="login.php" method="POST"> <!-- Update the form action to the current page -->
         <div class="form-floating mb-3">
           <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required>

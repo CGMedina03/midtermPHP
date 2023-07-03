@@ -1,42 +1,32 @@
 <?php
-
 include 'connect.php';
-
 $nameError = $emailError = $mobileError = $passwordError = '';
-
 $name = $email = $mobile = $password = '';
-
 if (isset($_POST['submit'])) {
   $name = $_POST['name'];
   $email = $_POST['email'];
   $mobile = $_POST['mobile'];
   $password = $_POST['password'];
-
   // Validate Name: Should not contain special symbols or numbers
   if (!preg_match('/^[a-zA-Z\s]+$/', $name)) {
     $nameError = "Name should only contain letters and spaces.";
   }
-
   // Validate Email: Use PHP filter_var function
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $emailError = "Invalid email format.";
   }
-
   // Validate Mobile Number: Should be 11 digits starting from 09
   if (!preg_match('/^09\d{9}$/', $mobile)) {
     $mobileError = "Mobile number should be 11 digits starting from 09.";
   }
-
   // Validate Password: Should have at least 12 characters
   if (strlen($password) < 12) {
     $passwordError = "Password should have at least 12 characters.";
   }
-
   // If there are no validation errors, proceed with the insert operation
   if (empty($nameError) && empty($emailError) && empty($mobileError) && empty($passwordError)) {
     $sql = "INSERT INTO `crud` (name, email, mobile, password) VALUES ('$name', '$email', '$mobile', '$password')";
     $result = mysqli_query($con, $sql);
-
     if ($result) {
       header('location: login.php');
       exit; // Stop further execution
@@ -45,10 +35,7 @@ if (isset($_POST['submit'])) {
     }
   }
 }
-
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,10 +43,8 @@ if (isset($_POST['submit'])) {
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
-
   <title>CRUD Operation</title>
 </head>
 
@@ -111,7 +96,6 @@ if (isset($_POST['submit'])) {
       </div>
     </form>
   </div>
-
   <script src="node_modules\bootstrap\dist\js\bootstrap.bundle.js"></script>
   <script>
     function togglePasswordVisibility() {
