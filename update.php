@@ -1,6 +1,6 @@
 <?php
+session_start();
 include 'connect.php';
-
 $id = $_GET['updateid'];
 $sql = "SELECT * FROM `crud` WHERE id=$id";
 $result = mysqli_query($con, $sql);
@@ -42,7 +42,14 @@ if (isset($_POST['submit'])) {
         $result = mysqli_query($con, $sql);
 
         if ($result) {
+            // Update the $_SESSION variables
+            $_SESSION['name'] = $name;
+            $_SESSION['email'] = $email;
+            $_SESSION['mobile'] = $mobile;
+            $_SESSION['password'] = $password;
+
             header('location:index.php#tabledata');
+
             exit; // Stop further processing
         } else {
             die(mysqli_error($con));

@@ -68,6 +68,9 @@ if ($result && mysqli_num_rows($result) > 1) {
             <p>No user profile found.</p>
           <?php endif; ?>
         </div>
+        <button class="btn btn-success">
+          <a href="update.php?updateid=<?php echo $_SESSION['id']; ?>" class="text-light text-decoration-none">Update</a>
+        </button>
         <button type="submit" class="btn btn-success"><a href="login.php" class="text-decoration-none text-white">Log out</a></button>
       </div>
       <div class="tab-pane fade p-3" id="tableData" role="tabpanel">
