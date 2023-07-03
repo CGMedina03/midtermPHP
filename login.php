@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (empty($emailErr) && empty($passwor
         </div>
       </form>
       <div class="text-center mt-3">
-        <p>Create an account <a href="sample.php" class="text-success">here!</a></p>
+        <p>Create an account <a href="register.php" class="text-success">here!</a></p>
       </div>
     </div>
   </div>

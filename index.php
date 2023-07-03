@@ -43,7 +43,7 @@ if ($result && mysqli_num_rows($result) > 1) {
 </head>
 
 <body>
-  <div class="container-lg">
+  <div class="container-lg p-3">
     <h1 class="mt-3 text-success display-6 text-center fw-semibold">
       Greetings, <?php echo $_SESSION['name']; ?> #<?php echo $_SESSION['id']; ?>!
     </h1>
@@ -58,7 +58,7 @@ if ($result && mysqli_num_rows($result) > 1) {
       <div class="tab-pane fade show active p-3" id="userProfile" role="tabpanel">
         <div class="d-flex flex-column">
           <?php if (!empty($_SESSION['name'])) : ?>
-            <h3 class="fw-semibold text-muted">Name: <?php echo $_SESSION['name']; ?></h3>
+            <h3 class="fw-semibold text-muted py-3">Name: <?php echo $_SESSION['name']; ?></h3>
             <h5>Email: <?php echo $_SESSION['email']; ?></h5>
             <h5>Contact number: <?php echo $_SESSION['mobile']; ?></h5>
             <?php if ($isAdmin) : ?>
@@ -68,15 +68,15 @@ if ($result && mysqli_num_rows($result) > 1) {
             <p>No user profile found.</p>
           <?php endif; ?>
         </div>
-        <button class="btn btn-success">
+        <button class="btn btn-success mt-5 me-3">
           <a href="update.php?updateid=<?php echo $_SESSION['id']; ?>" class="text-light text-decoration-none">Update</a>
         </button>
-        <button type="submit" class="btn btn-success"><a href="login.php" class="text-decoration-none text-white">Log out</a></button>
+        <button type="submit" class="btn btn-success mt-5"><a href="login.php" class="text-decoration-none text-white">Log out</a></button>
       </div>
       <div class="tab-pane fade p-3" id="tableData" role="tabpanel">
         <div class="container">
           <?php if ($isAdmin) : ?>
-            <button class="btn btn-success my-2"> <a href="sample.php" class="text-light text-decoration-none">Add user</a></button>
+            <button class="btn btn-success my-2"> <a href="addUser.php" class="text-light text-decoration-none">Add user</a></button>
           <?php endif; ?>
           <table class="table">
             <thead>

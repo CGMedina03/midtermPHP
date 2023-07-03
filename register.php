@@ -1,9 +1,10 @@
 <?php
+
 include 'connect.php';
 
 $nameError = $emailError = $mobileError = $passwordError = '';
 
-$name = $email = $mobile = $password = ''; // Initialize variables
+$name = $email = $mobile = $password = '';
 
 if (isset($_POST['submit'])) {
   $name = $_POST['name'];
@@ -37,16 +38,18 @@ if (isset($_POST['submit'])) {
     $result = mysqli_query($con, $sql);
 
     if ($result) {
-      header('location:login.php');
+      header('location: login.php');
       exit; // Stop further execution
     } else {
       die(mysqli_error($con));
     }
   }
 }
+
 ?>
 
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -62,7 +65,7 @@ if (isset($_POST['submit'])) {
 
 <body>
   <div class="container my-5 col-sm-9 col-lg-5">
-    <h1 class="text-center text-success">User Registration</h1>
+    <h1 class="text-center text-success">User Register</h1>
     <form method="POST">
       <div class="form-group mb-3">
         <label class="form-label">Name</label>
@@ -88,7 +91,7 @@ if (isset($_POST['submit'])) {
       <div class="form-group mb-3">
         <label class="form-label">Password</label>
         <div class="input-group">
-          <input type="password" class="form-control" placeholder="Enter your password" name="password" autocomplete="off" id="passwordInput">
+          <input type="password" class="form-control" placeholder="Enter your password" name="password" id="passwordInput" value="<?php echo htmlspecialchars($password); ?>">
           <div class="input-group-text">
             <span class="toggle-icon" onclick="togglePasswordVisibility()">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
@@ -106,7 +109,6 @@ if (isset($_POST['submit'])) {
         <button type="button" class="btn btn-secondary btn-sm m-3" onclick="goBack()">Cancel</button>
         <button type="submit" class="btn btn-success " name="submit">Submit</button>
       </div>
-
     </form>
   </div>
 

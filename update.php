@@ -42,13 +42,17 @@ if (isset($_POST['submit'])) {
         $result = mysqli_query($con, $sql);
 
         if ($result) {
-            // Update the $_SESSION variables
-            $_SESSION['name'] = $name;
-            $_SESSION['email'] = $email;
-            $_SESSION['mobile'] = $mobile;
-            $_SESSION['password'] = $password;
+            // Check if the updated user is the admin
+            if ($id == $_SESSION['id']) {
+                // Update the admin's session variables
+                $_SESSION['name'] = $name;
+                $_SESSION['email'] = $email;
+                $_SESSION['mobile'] = $mobile;
+                $_SESSION['password'] = $password;
+            }
 
-            header('location:index.php#tabledata');
+            // Redirect back to the profile page
+            header('location: index.php');
 
             exit; // Stop further processing
         } else {
@@ -111,8 +115,8 @@ if (isset($_POST['submit'])) {
                 </div>
                 <?php if (isset($errors['password'])) echo '<p class="text-danger">' . $errors['password'] . '</p>'; ?>
             </div>
-            <div class="d-flex justify-content-around align-items-center mt-3">
-                <button type="button" class="btn btn-secondary btn-sm"><a href="index.php" class="text-white text-decoration-none">Cancel</a></button>
+            <div class="d-flex justify-content-end align-items-center mt-5">
+                <button type="button" class="btn btn-secondary btn-sm me-3"><a href="index.php" class="text-white text-decoration-none">Cancel</a></button>
                 <button type="submit" class="btn btn-success " name="submit">Update</button>
             </div>
 
